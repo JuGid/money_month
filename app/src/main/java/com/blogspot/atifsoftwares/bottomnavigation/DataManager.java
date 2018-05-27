@@ -78,7 +78,7 @@ public class DataManager{
         //Récupère dans un Cursor les valeurs correspondant aux montants
         Cursor cursor = database.query(TABLE_MONTANT, new String[] {SQLAdapter.COLUMN_ID, SQLAdapter.COLUMN_MONTANT, SQLAdapter.COLUMN_NAME,SQLAdapter.COLUMN_TYPE}, SQLAdapter.COLUMN_ID + " LIKE \"" + ID +"\"", null, null, null, null);
         cursor.moveToFirst();
-        Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
+        Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3),cursor.getInt(0));
         return mtn;
     }
 
@@ -91,7 +91,7 @@ public class DataManager{
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3),cursor.getInt(0));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -108,7 +108,7 @@ public class DataManager{
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3),cursor.getInt(0));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -125,7 +125,7 @@ public class DataManager{
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3),cursor.getInt(0));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -138,5 +138,8 @@ public class DataManager{
         database.delete(dbHelper.TABLE_MONTANT, null, null);
     }
 
+    public void deleteAt(String id){
+        database.delete(TABLE_MONTANT,"id =" + id,null);
+    }
 
 }

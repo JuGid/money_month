@@ -50,10 +50,11 @@ public class FragmentTwo extends Fragment {
         listMontants = dtManager.getAllMontants();
 
         for(Montants mtn : listMontants){
-            listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString());
+            String strAdd = mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString()+ ";" + mtn.getId();
+            listItems.add(strAdd);
         }
 
-        listMontantsAdapter = new adapterList(getContext(),listItems);
+        listMontantsAdapter = new adapterList(getContext(),listItems,dtManager);
         listViewMontants.setAdapter(listMontantsAdapter);
         listMontantsAdapter.notifyDataSetChanged();
 
@@ -74,23 +75,23 @@ public class FragmentTwo extends Fragment {
                 switch(position){
                     case 0: //Tout
                         for(Montants mtn : listMontants){
-                            listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString());
+                            listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString()+ ";" + mtn.getId());
                         }
                         break;
                     case 1: //Débit
                         for(Montants mtn : listMontants){
                             if(mtn.getType()==0)
-                                listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString());
+                                listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString()+ ";" + mtn.getId());
                         }
                         break;
                     case 2: //Crédit
                         for(Montants mtn : listMontants){
                             if(mtn.getType()==1)
-                            listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString());
+                            listItems.add(mtn.getName() + ";" + mtn.getMontant() + ";" + mtn.getTypeString()+ ";" + mtn.getId());
                         }
                         break;
                 }
-                listMontantsAdapter = new adapterList(getContext(),listItems);
+                listMontantsAdapter = new adapterList(getContext(),listItems,dtManager);
                 listViewMontants.setAdapter(listMontantsAdapter);
                 listMontantsAdapter.notifyDataSetChanged();
             }
