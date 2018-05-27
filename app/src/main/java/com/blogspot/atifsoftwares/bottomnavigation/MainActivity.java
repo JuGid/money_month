@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -28,16 +30,25 @@ public class MainActivity extends AppCompatActivity {
     private EditText montantChiffre;
     private RadioButton rbCred;
     private RadioButton rbDeb;
-
-
-
-
+    private Toolbar toolbar;
+    private Menu menuGeneral;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.genToolbar);
+        //menuGeneral = (Menu)findViewById(R.menu.menu_gen);
+        //menuGeneral.addSubMenu("Plus");
+        setSupportActionBar(toolbar);
+        //if (getSupportActionBar() != null) {
+        //    getSupportActionBar().setTitle("Main Page");
+        //}
+        //toolbar.setSubtitle("Test Subtitle");
+        //toolbar.inflateMenu(R.menu.menu_gen);
+
         dtManager = new DataManager(this);
         dtManager.open();
         mTextMessage = (TextView) findViewById(R.id.message);
@@ -129,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
     }
 
-
-
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_gen, menu);
+        return true;
+    }
+    */
 }
