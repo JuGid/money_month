@@ -57,12 +57,16 @@ public class FragmentTwo extends Fragment {
         listViewMontants.setAdapter(listMontantsAdapter);
         listMontantsAdapter.notifyDataSetChanged();
 
+        //GESTION DU SPINNER
         Spinner listFiltres = view.findViewById(R.id.listFiltre);
+
         ArrayAdapter<CharSequence> adapterSpin = ArrayAdapter.createFromResource(getContext(),
-                R.array.filtres, android.R.layout.simple_spinner_item);
+                R.array.filtres, R.layout.spinner_adapter);
+
         adapterSpin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         listFiltres.setAdapter(adapterSpin);
 
+        //GESTION DE L'EVENEMENT POUR LE SPINNER
         listFiltres.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {

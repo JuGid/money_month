@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DataManager{
     private SQLiteDatabase database;
@@ -19,10 +20,12 @@ public class DataManager{
     private String[] allColumns = { SQLAdapter.COLUMN_ID,
             SQLAdapter.COLUMN_MONTANT,SQLAdapter.COLUMN_NAME,SQLAdapter.COLUMN_TYPE };
 
+    private Context context;
     public static final String TABLE_MONTANT = "montants";
 
     public DataManager(Context context) {
         dbHelper = new SQLAdapter(context);
+        this.context=context;
     }
 
     public void open() throws SQLException {
@@ -131,6 +134,9 @@ public class DataManager{
         return mtnList;
     }
 
+    public void deleteDataBase(){
+        database.delete(dbHelper.TABLE_MONTANT, null, null);
+    }
 
 
 }

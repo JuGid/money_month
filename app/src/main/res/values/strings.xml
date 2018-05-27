@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bottom Navigation</string>
+    <string name="app_name">IndiMonth</string>
     <string name="title_home">Accueil</string>
     <string name="title_dashboard">Gestion</string>
     <string name="title_notifications">Ajouter</string>
