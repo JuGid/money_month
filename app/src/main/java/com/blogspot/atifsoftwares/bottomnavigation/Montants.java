@@ -27,10 +27,10 @@ public class Montants {
 
     String getTypeString(){
         if(this.type==0){
-            return "outcome";
+            return "-";
         }
         else{
-            return "income";
+            return "+";
         }
     }
 

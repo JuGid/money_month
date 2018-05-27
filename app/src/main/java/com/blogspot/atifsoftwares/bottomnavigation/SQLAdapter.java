@@ -11,16 +11,17 @@ public class SQLAdapter extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public static final String TABLE_MONTANT = "montants";
-    public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_MONTANT = "montant";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_TYPE = "type";
 
-    private static final String DATABASE_CREATE =  "CREATE TABLE"+ TABLE_MONTANT +" ("
-            +COLUMN_ID+ " INTEGER  NOT NULL AUTOINCREMENT PRIMARY KEY,"
-            +COLUMN_MONTANT +" int not null,"
-            +COLUMN_NAME + " text not null,"
-            +COLUMN_TYPE + " int not null);";
+    private static final String DATABASE_CREATE = "create table if not exists " + TABLE_MONTANT
+            + "("
+            + COLUMN_ID + " integer primary key autoincrement, "
+            + COLUMN_MONTANT + " integer not null,"
+            + COLUMN_NAME + " text not null,"
+            + COLUMN_TYPE +" integer not null);";
 
     public SQLAdapter(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

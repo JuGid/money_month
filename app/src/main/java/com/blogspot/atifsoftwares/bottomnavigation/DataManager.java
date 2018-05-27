@@ -9,8 +9,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
-public class DataManager {
+public class DataManager{
     private SQLiteDatabase database;
     private SQLAdapter dbHelper;
     private String[] allColumns = { SQLAdapter.COLUMN_ID,
@@ -30,14 +33,28 @@ public class DataManager {
         dbHelper.close();
     }
 
-    public long insertMontant(Montants mtn){
+    public boolean isNull(){
+        if(database==null)
+            return true;
+        return false;
+    }
+
+    public String[] getColumns(){
+        SQLiteDatabase mDataBase;
+        mDataBase = dbHelper.getReadableDatabase();
+        Cursor dbCursor = mDataBase.query(TABLE_MONTANT, null, null, null, null, null, null);
+        String[] columnNames = dbCursor.getColumnNames();
+        return columnNames;
+    }
+
+    public void insertMontant(Montants mtn){
         ContentValues values = new ContentValues();
         //on lui ajoute une valeur associée à une clé (qui est le nom de la colonne dans laquelle on veut mettre la valeur)
         values.put(SQLAdapter.COLUMN_MONTANT, mtn.getMontant());
         values.put(SQLAdapter.COLUMN_NAME, mtn.getName());
         values.put(SQLAdapter.COLUMN_TYPE, mtn.getType());
         //on insère l'objet dans la BDD via le ContentValues
-        return database.insert(TABLE_MONTANT, null, values);
+        database.insert(TABLE_MONTANT, null, values);
     }
 
     public int updateLivre(int id, Montants mtn){
@@ -56,11 +73,14 @@ public class DataManager {
 
     public Montants getMontants(int ID){
         //Récupère dans un Cursor les valeurs correspondant aux montants
-        Cursor c = database.query(TABLE_MONTANT, new String[] {SQLAdapter.COLUMN_ID, SQLAdapter.COLUMN_MONTANT, SQLAdapter.COLUMN_NAME,SQLAdapter.COLUMN_TYPE}, SQLAdapter.COLUMN_ID + " LIKE \"" + ID +"\"", null, null, null, null);
-        return cursorToMontants(c);
+        Cursor cursor = database.query(TABLE_MONTANT, new String[] {SQLAdapter.COLUMN_ID, SQLAdapter.COLUMN_MONTANT, SQLAdapter.COLUMN_NAME,SQLAdapter.COLUMN_TYPE}, SQLAdapter.COLUMN_ID + " LIKE \"" + ID +"\"", null, null, null, null);
+        cursor.moveToFirst();
+        Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
+        return mtn;
     }
 
     public List<Montants> getAllMontants() {
+        Log.e("TEST","GETALLMONTANTS");
         List<Montants> mtnList = new ArrayList<Montants>();
 
         Cursor cursor = database.query(SQLAdapter.TABLE_MONTANT,
@@ -68,7 +88,7 @@ public class DataManager {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = cursorToMontants(cursor);
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -85,7 +105,7 @@ public class DataManager {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = cursorToMontants(cursor);
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -102,7 +122,7 @@ public class DataManager {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Montants mtn = cursorToMontants(cursor);
+            Montants mtn = new Montants(cursor.getString(2),cursor.getInt(1),cursor.getInt(3));
             mtnList.add(mtn);
             cursor.moveToNext();
         }
@@ -111,24 +131,6 @@ public class DataManager {
         return mtnList;
     }
 
-    //Cette méthode permet de convertir un cursor en un livre
-    private Montants cursorToMontants(Cursor c){
-        //si aucun élément n'a été retourné dans la requête, on renvoie null
-        if (c.getCount() == 0)
-            return null;
 
-        //Sinon on se place sur le premier élément
-        c.moveToFirst();
-        //On créé un livre
-        Montants mtn = new Montants();
-        //on lui affecte toutes les infos grâce aux infos contenues dans le Cursor
-        mtn.setMontant(c.getInt(1));
-        mtn.setName(c.getString(2));
-        mtn.setType(c.getInt(3));
-        //On ferme le cursor
-        c.close();
 
-        //On retourne le livre
-        return mtn;
-    }
 }
