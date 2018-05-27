@@ -16,12 +16,11 @@ public class SQLAdapter extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_TYPE = "type";
 
-    private static final String DATABASE_CREATE =
-            "CREATE TABLE montants (
-            `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            montants int not null,
-            name text not null,
-            type int not null,);"
+    private static final String DATABASE_CREATE =  "CREATE TABLE"+ TABLE_MONTANT +" ("
+            +COLUMN_ID+ " INTEGER  NOT NULL AUTOINCREMENT PRIMARY KEY,"
+            +COLUMN_MONTANT +" int not null,"
+            +COLUMN_NAME + " text not null,"
+            +COLUMN_TYPE + " int not null);";
 
     public SQLAdapter(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +28,7 @@ public class SQLAdapter extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(DATABASE_CREATE);
+       sqLiteDatabase.execSQL(DATABASE_CREATE);
     }
 
     @Override

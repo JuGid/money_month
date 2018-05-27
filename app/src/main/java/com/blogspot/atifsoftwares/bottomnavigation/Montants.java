@@ -38,6 +38,18 @@ public class Montants {
         return this.type;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMontant(int montant) {
+        this.montant = montant;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Le montant " + getName() + "est un " + getTypeString() + " de " + getMontant() ;
