@@ -21,6 +21,7 @@ public class adapterList extends ArrayAdapter<String> {
     DataManager dtManager;
     String [] s;
     int lastPosition;
+    View viewIntern;
 
     public adapterList(Context context, ArrayList<String> values,DataManager dt) {
         super(context, -1, values);
@@ -30,7 +31,7 @@ public class adapterList extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.listview, parent, false);
@@ -41,10 +42,12 @@ public class adapterList extends ArrayAdapter<String> {
         TextView name = (TextView) rowView.findViewById(R.id.titre);
         TextView montant = (TextView) rowView.findViewById(R.id.montant);
         Button buttonDelete = (Button) rowView.findViewById(R.id.boutonDelete);
+        buttonDelete.setTag(position+";"+s[3]);
+
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /////
+                viewIntern = v;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setCancelable(true);
                 builder.setTitle("Confirmation");
@@ -53,8 +56,10 @@ public class adapterList extends ArrayAdapter<String> {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dtManager.deleteAt(s[3].toString());
-                                values.remove(lastPosition);
+                                String [] strIn = viewIntern.getTag().toString().split(";");
+                                dtManager.deleteAt(strIn[1]);
+                                values.remove(Integer.parseInt(strIn[0]));
+                                Log.e("TEST CLICK", String.format("%s ; %s",strIn[0],strIn[1]));
                                 notifyDataSetChanged();
                             }
                         });
@@ -74,7 +79,7 @@ public class adapterList extends ArrayAdapter<String> {
         name.setText(s[0]);
         montant.setText(String.format("%s %s€",s[2],s[1]));
 
-
+        lastPosition = position;
         // change the icon for Windows and iPhone
 
         return rowView;
